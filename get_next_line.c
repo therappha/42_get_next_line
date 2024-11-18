@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:13:15 by rafaelfe          #+#    #+#             */
-/*   Updated: 2024/11/15 20:55:12 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:06:26 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 char *get_next_line(int fd)
 {
 	static char	*next_line;
-	char		*readbuf;
+	static char		*readbuf;
 	int			read_count;
 	char		*result_line;
+	char		*temp;
 
-	readbuf = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, readbuf, 0) < 0)
 		return (NULL);
 
@@ -38,17 +38,24 @@ char *get_next_line(int fd)
 		if (read_count == 0)
 		{
 			free(readbuf);
-			break;
+			free(next_line);
+			return (NULL);
 		}
 		readbuf[read_count] = '\0';
-		next_line = ft_strjoin(next_line, readbuf);
+
+		temp = ft_strjoin(next_line, readbuf);
+		free(next_line);
+		free(readbuf);
+		next_line = temp;
 	}
 	result_line = copystr(next_line);
-	next_line = trimstr(next_line);
+	temp = trimstr(next_line);
+	free(next_line);
+	next_line = temp;
 	return (result_line);
 }
 
-int	strsize(const char *str)
+int	ft_strsize(const char *str)
 {
 	int	i;
 

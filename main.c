@@ -10,23 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "get_next_line.h"
 
-int	main(void)
+int main(int ac, char **av)
 {
-	// int fd;
-	// char *next_line;
+    int fd;
+    char *line;
+	(void)ac;
+    //char file[256];
 
-	// next_line = NULL;
-	// fd = open("file.txt", O_RDWR);
-	// if (fd == -1)
-	// 	return (0);
-
-	// next_line = get_next_line(fd);
-
-	// if (next_line == NULL)
-	// 	printf("NULL");
-
-	// printf("%s", next_line);
+    //printf("File name: ");
+    //scanf("%255s", file);
+    fd = open(av[1], O_RDONLY);
+    if (fd == -1)
+    {
+        perror("Failed to open the file!");
+        return (1);
+    }
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
 }

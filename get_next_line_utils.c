@@ -15,18 +15,20 @@
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
+	int	s1len = 0;
+	int	s2len = 0;
 
-	if (!s1)
-	{
-		s1 = (char *)malloc(sizeof(char));
-		s1[0] = '\0';
-	}
-	str = (char *)malloc(strsize(s1) + strsize(s2) + 1);
+	if (s1)
+		s1len = ft_strsize(s1);
+	if (s2)
+		s2len = ft_strsize(s2);
+	str = (char *)malloc(s1len + s2len + 1);
 	if (!str)
 		return (NULL);
-	ft_strcpy(str, (char *)s1);
-	ft_strcpy((str + strsize(s1)), (char *)s2);
-	free(s2);
+	if (s1)
+		ft_strcpy(str, (char *)s1);
+	if (s2)
+		ft_strcpy((str + s1len), (char *)s2);
 	return (str);
 }
 
@@ -53,8 +55,10 @@ char	*copystr(char *str)
 	char	*result;
 
 	i = 0;
-	n = new_line(str);
+	n = new_line(str) + 1;
 	result = (char *)malloc(sizeof(char) * (n + 1));
+	if (!result)
+		return (NULL);
 
 	while (*str && i < n)
 	{
@@ -74,7 +78,7 @@ char	*trimstr(char *str)
 
 	i = 0;
 	len_n = new_line(str) + 1;
-	len = strsize(str);
+	len = ft_strsize(str);
 	result = (char *)malloc(sizeof(char) * (len - len_n + 1));
 	while(i < (len - len_n))
 	{
@@ -98,5 +102,3 @@ char	*ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
-
-

@@ -55,7 +55,7 @@ char	*copystr(char *str)
 	char	*result;
 
 	i = 0;
-	n = new_line(str) + 1;
+	n = new_line(str) + 2;
 	result = (char *)malloc(sizeof(char) * (n + 1));
 	if (!result)
 		return (NULL);
@@ -78,7 +78,7 @@ char	*trimstr(char *str)
 
 	i = 0;
 	len_n = new_line(str) + 1;
-	len = ft_strsize(str);
+	len = ft_strsize(str) + 1;
 	result = (char *)malloc(sizeof(char) * (len - len_n + 1));
 	while(i < (len - len_n))
 	{
@@ -86,6 +86,7 @@ char	*trimstr(char *str)
 		i++;
 	}
 	result[i] = '\0';
+	free(str);
 	return (result);
 }
 

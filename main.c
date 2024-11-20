@@ -15,16 +15,11 @@
 #include <stdlib.h>
 #include "get_next_line.h"
 
-int main(int ac, char **av)
+int main(void)
 {
     int fd;
     char *line;
-	(void)ac;
-    //char file[256];
-
-    //printf("File name: ");
-    //scanf("%255s", file);
-    fd = open(av[1], O_RDONLY);
+    fd = open("file.txt", O_RDONLY);
     if (fd == -1)
     {
         perror("Failed to open the file!");

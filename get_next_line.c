@@ -5,49 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 17:13:15 by rafaelfe          #+#    #+#             */
-/*   Updated: 2024/11/20 18:55:35 by rafaelfe         ###   ########.fr       */
+/*   Created: 2024/11/20 16:55:04 by rafaelfe          #+#    #+#             */
+/*   Updated: 2024/11/22 19:58:02 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-#ifndef BUFFER_SIZE
-
-# define BUFFER_SIZE 5
-
-#endif
-
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static char		*next_line;
-	static char		*readbuf;
-	int				read_count;
-	char			*result_line;
-	char			*temp;
+	static char	*buffer;
+	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, readbuf, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while(new_line(next_line) == -1)
-	{
-		readbuf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!readbuf)
-			return (NULL);
-		read_count = read(fd, readbuf, BUFFER_SIZE);
-		if (!read_count)
-			return (free(readbuf), free(next_line), NULL);
-		readbuf[read_count] = '\0';
-		temp = ft_strjoin(next_line, readbuf);
-		free(next_line);
-		free(readbuf);
-		next_line = temp;
-	}
-	result_line = copystr(next_line);
-	temp = trimstr(next_line);
-	next_line = temp;
-	return (result_line);
+	buffer = ft_read(fd, buffer);
+	if (!buffer)
+		return (NULL);
+	line = copystr(buffer);
+	if (!line)
+		return (NULL);
+	buffer = trimstr(buffer);
+	return (line);
 }
-
 int	ft_strsize(const char *str)
 {
 	int	i;
@@ -57,4 +37,32 @@ int	ft_strsize(const char *str)
 		i++;
 	return (i);
 }
+char	*copystr(char *str)
+{
+	int	i;
 
+	i = 0;
+	while (str[i] != '\n' && str[i] != '\0') // && str[i + 1] removes the if
+		i++;
+	if (str[i] == '\0' && i > 0)
+		--i;
+	return (ft_strndupmod(str, 0, i));
+}
+char *trimstr(char *str)
+{
+	int		str_size;
+	int		i;
+	char	*result;
+
+	i = 0;
+	str_size = ft_strsize(str) - 1;
+	while (str[i] != '\n' && str[i + 1]) // if \n or the index previous than '\0'
+		i++;
+	++i;
+	if (!str[i])
+		result = NULL;
+	else
+		result = ft_strndupmod(str, i, str_size);
+	free(str);
+	return (result);
+}

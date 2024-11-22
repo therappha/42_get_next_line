@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:39:09 by rafaelfe          #+#    #+#             */
-/*   Updated: 2024/11/20 16:09:06 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:02:49 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+#ifndef BUFFER_SIZE
 
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
+# define BUFFER_SIZE 5
 
+#endif
 
 char	*ft_strjoin(char *s1, char *s2);
 char	*trimstr(char *str);
@@ -35,5 +33,7 @@ int		new_line(char *str);
 char	*get_next_line(int fd);
 int		ft_strsize(const char *str);
 char	*ft_strcpy(char *dest, char *src);
+char	*ft_read(int fd, char *next_line);
+char	*ft_strndupmod(const char *str, int start, int end);
 
 #endif

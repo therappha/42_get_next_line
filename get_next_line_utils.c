@@ -5,19 +5,61 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/15 17:20:10 by rafaelfe          #+#    #+#             */
-/*   Updated: 2024/11/15 17:20:10 by rafaelfe         ###   ########.fr       */
+/*   Created: 2024/11/20 16:59:27 by rafaelfe          #+#    #+#             */
+/*   Updated: 2024/11/22 19:35:29 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_read(int fd, char *next_line)
+{
+	char	*buffer;
+	int		bytes_read;
+	char	*temp;
+
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (free(next_line), NULL);
+	bytes_read = 1;
+	while (!new_line(next_line) && bytes_read > 0)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1 || (bytes_read == 0 && !next_line))
+			return (free(buffer), free(next_line), NULL);
+		buffer[bytes_read] = '\0';
+		temp = ft_strjoin(next_line, buffer);
+		if (!temp)
+			return (free(buffer), free(next_line), NULL);
+		free(next_line);
+		next_line = temp;
+	}
+	return (free(buffer), next_line);
+}
+
+int	new_line(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
-	int	s1len = 0;
-	int	s2len = 0;
+	int		s1len;
+	int		s2len;
 
+	s1len = 0;
+	s2len = 0;
 	if (s1)
 		s1len = ft_strsize(s1);
 	if (s2)
@@ -32,64 +74,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-int	new_line(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (-1);
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-char	*copystr(char *str)
-{
-	int		i;
-	int		n;
-	char	*result;
-
-	i = 0;
-	n = new_line(str) + 2;
-	result = (char *)malloc(sizeof(char) * (n + 1));
-	if (!result)
-		return (NULL);
-
-	while (*str && i < n)
-	{
-		result[i] = str[i];
-		i++;
-	}
-	result[i] = ('\0');
-	return (result);
-}
-
-char	*trimstr(char *str)
-{
-	char *result;
-	int	len_n;
-	int	len;
-	int	i;
-
-	i = 0;
-	len_n = new_line(str) + 1;
-	len = ft_strsize(str) + 1;
-	result = (char *)malloc(sizeof(char) * (len - len_n + 1));
-	while(i < (len - len_n))
-	{
-		result[i] = str[len_n + i];
-		i++;
-	}
-	result[i] = '\0';
-	free(str);
-	return (result);
-}
-
 char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
@@ -102,4 +86,24 @@ char	*ft_strcpy(char *dest, char *src)
 	}
 	dest[i] = '\0';
 	return (dest);
+}
+char	*ft_strndupmod(const char *str, int start, int end)
+{
+	char	*newstr;
+	int		i;
+	int		total_len;
+
+	i = 0;
+	total_len = end - start + 1;
+	newstr = (char *)malloc(total_len + 1);
+	if (!newstr)
+		return (NULL);
+	while (i < total_len)
+	{
+		newstr[i] = str[start];
+		i++;
+		start++;
+	}
+	newstr[i] = '\0';
+	return (newstr);
 }

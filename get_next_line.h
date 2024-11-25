@@ -6,25 +6,23 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:39:09 by rafaelfe          #+#    #+#             */
-/*   Updated: 2024/11/22 18:02:49 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:27:25 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
-# define	GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <unistd.h>
+# include <stdlib.h>
+# include <stddef.h>
+# include <fcntl.h>
+# include <stdio.h>
 
+# ifndef BUFFER_SIZE
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <fcntl.h>
-#include <stdio.h>
+#  define BUFFER_SIZE 5
 
-#ifndef BUFFER_SIZE
-
-# define BUFFER_SIZE 5
-
-#endif
+# endif
 
 char	*ft_strjoin(char *s1, char *s2);
 char	*trimstr(char *str);

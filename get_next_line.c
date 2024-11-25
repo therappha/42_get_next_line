@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:55:04 by rafaelfe          #+#    #+#             */
-/*   Updated: 2024/11/22 19:58:02 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:20:50 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*get_next_line(int fd)
 	buffer = trimstr(buffer);
 	return (line);
 }
+
 int	ft_strsize(const char *str)
 {
 	int	i;
@@ -37,18 +38,20 @@ int	ft_strsize(const char *str)
 		i++;
 	return (i);
 }
+
 char	*copystr(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\n' && str[i] != '\0') // && str[i + 1] removes the if
+	while (str[i] != '\n' && str[i] != '\0')
 		i++;
 	if (str[i] == '\0' && i > 0)
 		--i;
 	return (ft_strndupmod(str, 0, i));
 }
-char *trimstr(char *str)
+
+char	*trimstr(char *str)
 {
 	int		str_size;
 	int		i;
@@ -56,7 +59,7 @@ char *trimstr(char *str)
 
 	i = 0;
 	str_size = ft_strsize(str) - 1;
-	while (str[i] != '\n' && str[i + 1]) // if \n or the index previous than '\0'
+	while (str[i] != '\n' && str[i + 1])
 		i++;
 	++i;
 	if (!str[i])

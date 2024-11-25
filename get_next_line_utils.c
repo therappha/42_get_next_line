@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:59:27 by rafaelfe          #+#    #+#             */
-/*   Updated: 2024/11/22 19:35:29 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:19:06 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	new_line(char *str)
 	}
 	return (0);
 }
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
@@ -87,6 +88,7 @@ char	*ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
+
 char	*ft_strndupmod(const char *str, int start, int end)
 {
 	char	*newstr;
